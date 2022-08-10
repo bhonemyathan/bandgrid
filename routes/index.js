@@ -101,7 +101,7 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   let email = validator.isEmail(req.body.email);
   let password = validator.isStrongPassword(req.body.password);
-  let name = validator.isAlpha(req.body.name);
+  let name = validator.isAlphanumeric(req.body.name);
   if(name == true) {
   } else {
     res.send(
