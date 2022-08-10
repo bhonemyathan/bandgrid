@@ -60,21 +60,6 @@ router.get("/postadd", (req, res) => {
 
 //Post Uploading
 router.post("/postadd", auth, upload.single("image"), (req, res) => {
-  let title = validator.isAlphanumeric(req.body.title);
-  let content = validator.isAlphanumeric(req.body.content);
-  if (title == true) {
-  } else {
-    res.send(
-      '<script>alert("Your title should be a-z or A-Z"); window.location.href = "/users/postadd"; </script>'
-    );
-  }
-  if (content == true) {
-  } else {
-    res.send(
-      '<script>alert("Your content should be a-z or A-Z/0-9"); window.location.href = "/users/postadd"; </script>'
-    );
-  }
-  if (title == true && content == true) {
     let post = new Post();
     post.title = req.body.title;
     post.content = req.body.content;
@@ -87,7 +72,6 @@ router.post("/postadd", auth, upload.single("image"), (req, res) => {
       console.log(rtn);
       res.redirect("/users");
     });
-  }
 });
 
 //Post Delete
@@ -121,28 +105,14 @@ router.get("/profile-setting", auth, (req, res) => {
 
 //Profile Update
 router.post("/profile", auth, profile.single("image"), (req, res) => {
-  let name = validator.isAlphanumeric(req.body.name);
   let email = validator.isEmail(req.body.email);
-  let about = validator.isAlphanumeric(req.body.about);
-  if (name == true) {
-  } else {
-    res.send(
-      '<script>alert("Your name should be a-z or A-Z"); window.location.href = "/users/profile"; </script>'
-    );
-  }
   if (email == true) {
   } else {
     res.send(
       '<script>alert("Your email is not correct format"); window.location.href = "/users/profile"; </script>'
     );
   }
-  if (about == true) {
-  } else {
-    res.send(
-      '<script>alert("Your about should be a-zA-Z0-9"); window.location.href = "/users/profile"; </script>'
-    );
-  }
-  if (name == true && email == true && about == true) {
+  if (email == true) {
     let profile = {
       name: req.body.name,
       email: req.body.email,
@@ -183,21 +153,6 @@ router.get("/postupdate/:id", auth, (req, res) => {
 
 //Post Update
 router.post("/postupdate", auth, upload.single("image"), (req, res) => {
-  let title1 = validator.isAlphanumeric(req.body.title);
-  let content1 = validator.isAlphanumeric(req.body.content);
-  if(title1 == true) {
-  } else {
-    res.send(
-      '<script>alert("Your title should be a-zA-Z"); window.location.href = "/users/postupdate"; </script>'
-    );
-  }
-  if(content1 == true) {
-  } else {
-    res.send(
-      '<script>alert("Your about should be a-zA-Z0-9"); window.location.href = "/users/postupdate"; </script>'
-    );
-  }
-  if(title1 == true && content1 == true) {
     let update = {
       title: req.body.title,
       content: req.body.content,
@@ -212,7 +167,6 @@ router.post("/postupdate", auth, upload.single("image"), (req, res) => {
         res.redirect("/users");
       }
     );
-  }
 });
 
 //Post Detail Page
