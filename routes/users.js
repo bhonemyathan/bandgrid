@@ -60,7 +60,7 @@ router.get("/postadd", (req, res) => {
 
 //Post Uploading
 router.post("/postadd", auth, upload.single("image"), (req, res) => {
-  let title = validator.isAlpha(req.body.title);
+  let title = validator.isAlphanumeric(req.body.title);
   let content = validator.isAlphanumeric(req.body.content);
   if (title == true) {
   } else {
@@ -121,7 +121,7 @@ router.get("/profile-setting", auth, (req, res) => {
 
 //Profile Update
 router.post("/profile", auth, profile.single("image"), (req, res) => {
-  let name = validator.isAlpha(req.body.name);
+  let name = validator.isAlphanumeric(req.body.name);
   let email = validator.isEmail(req.body.email);
   let about = validator.isAlphanumeric(req.body.about);
   if (name == true) {
@@ -183,7 +183,7 @@ router.get("/postupdate/:id", auth, (req, res) => {
 
 //Post Update
 router.post("/postupdate", auth, upload.single("image"), (req, res) => {
-  let title1 = validator.isAlpha(req.body.title);
+  let title1 = validator.isAlphanumeric(req.body.title);
   let content1 = validator.isAlphanumeric(req.body.content);
   if(title1 == true) {
   } else {
