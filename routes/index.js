@@ -101,13 +101,6 @@ router.post("/login", (req, res) => {
 router.post("/register", (req, res) => {
   let email = validator.isEmail(req.body.email);
   let password = validator.isStrongPassword(req.body.password);
-  let name = validator.isAlphanumeric(req.body.name);
-  if(name == true) {
-  } else {
-    res.send(
-      '<script>alert("Your name should be only alphabet"); window.location.href = "/login"; </script>'
-    );
-  }
   if (email == true) {
   } else {
     res.send(
@@ -120,7 +113,7 @@ router.post("/register", (req, res) => {
       '<script>alert("Your password should be Uppercase,Lowercase,Special Characters,Number and a-z or A-Z"); window.location.href = "/login"; </script>'
     );
   }
-  if(name == true && email == true && password == true) {
+  if(email == true && password == true) {
     let user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
@@ -256,10 +249,8 @@ router.post("/changepassword", auth, (req, res) => {
 
 //Search
 router.get("/search", (req, res) => {
-  let titlecheck = validator.isAlphanumeric(req.query.title);
   var titlee = req.query.title;
-  if(titlecheck == true){
-    if (req.url == "/search/" || req.url == "/search") {
+      if (req.url == "/search/" || req.url == "/search") {
       res.redirect("../forbidden");
     } else {
       Post.find({ title: { $regex: titlee, $options: "i" } })
@@ -269,11 +260,6 @@ router.get("/search", (req, res) => {
           res.render("search", { search: rtn });
         });
     }
-  } else {
-    res.send(
-      '<script>alert("Your search words should be  a-z or A-Z/0-9"); window.location.href = "/"; </script>'
-    );
-  }
 });
 
 //account
