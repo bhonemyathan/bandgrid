@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="./assets/images/icon.png"
+      type="image/png"
+    />
+    <title>Bandgrid</title>
+
+    <!--
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/media_query.css" />
+
+    <!--
+    - google font link
+  -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!--
+    - main container
+  -->
+    <div class="container">
+      <!--
+      - #HEADER SECTION
+    -->
+      <% include ./partials/navbar %>
+
+      <!--
+      - MAIN SECTION
+    -->
+      <main>
+        <!--
+        - #BANNER SECTION
+      -->
+        <section class="banner">
+          <div class="banner-card">
+            <img
+              src="./images/banner.jpg"
+              class="banner-img"
+              alt=""
+            />
+
+            <div class="card-content">
+              <div class="card-info">
+                <div class="info">You can upload and share your knowledge on our website.</div>
+              </div>
+
+              <h2 class="card-title">Band<font color="blue">GRid</font></h2>
+            </div>
+          </div>
+        </section>
+
+        <!--
+        - #MOVIES SECTION
+      -->
+        <section class="movies">
+          <!--
+          - filter bar
+        -->
+        <div class="filter-bar">
+          <h1>MOST LIKED POSTS</h1>
+        </div>
+
+          <!--
+          - movies grid
+        -->
+
+          <div class="movies-grid">
+            
+            <% for(var i = 0;i< mostlike.length;i++){%>
+              <div class="movie-card">
+                <div class="card-head">
+                  <input
+                  type="hidden"
+                  name="posttime"
+                  id="posttime"
+                  value="<%= mostlike[i].updated %>"
+                />
+                  <img
+                    src="<%= mostlike[i].image %>"
+                    alt=""
+                    class="card-img"
+                  />
+  
+                  <div class="card-overlay">
+                    <div class="play">
+                      <a
+                      href="/postdetail/<%= mostlike[i]._id %>"
+                      style="text-decoration: none; color: white; opacity: 90%"
+                      >See More</a
+                    >
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="card-body">
+                  <h3 class="card-title"><%= mostlike[i].title %></h3>
+  
+                  <div class="card-info">
+                    <span class="genre"><%= mostlike[i].author[0].name %></span>
+                    <span class="postyear"></span>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+          </div>
+            
+
+          <!--
+          - load more button
+        --><% if(mostlike.length > 12) {%>
+          <button class="load-more"><a href="/allposts">LOAD MORE</a></button>
+          <%}%>
+          
+
+          <div class="filter-bar">
+            <h1>MOST COMMENTED POSTS</h1>
+          </div>
+          <div class="movies-grid">
+            
+            <% for(var i = 0;i< mostcomment.length;i++){%>
+              <div class="movie-card">
+                <div class="card-head">
+                  <input
+                  type="hidden"
+                  name="posttime"
+                  id="posttime"
+                  value="<%= mostcomment[i].post[0].updated %>"
+                />
+                  <img
+                    src="<%= mostcomment[i].post[0].image %>"
+                    alt=""
+                    class="card-img"
+                  />
+  
+                  <div class="card-overlay">
+                    <div class="play">
+                      <a
+                      href="/postdetail/<%= mostcomment[i].post[0]._id %>"
+                      style="text-decoration: none; color: white; opacity: 90%"
+                      >See More</a
+                    >
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="card-body">
+                  <h3 class="card-title"><%= mostcomment[i].post[0].title %></h3>
+  
+                  <div class="card-info">
+                    <span class="genre"><%= mostcomment[i].author[0].name %></span>
+                    <span class="postyear"></span>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+          </div>
+            
+
+          <!--
+          - load more button
+        --><% if(mostcomment.length > 12) {%>
+          <button class="load-more"><a href="/allposts">LOAD MORE</a></button>
+          <%}%>
+        </section>
+
+      </main>
+      <!--
+      - FOOTER SECTION
+    -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="./assets/images/logo.png" alt="" class="footer-logo" />
+          <p class="slogan">
+            Internet Platform & Social Network & Blog Style,Anyone Can Upload The Post.
+          </p>
+
+          <div class="social-link">
+            <a href="#">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-tiktok"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <ul>
+            <h4 class="link-heading">BandGRid</h4>
+
+            <li class="link-item"><a href="#">About us</a></li>
+            <li class="link-item"><a href="/users">My profile</a></li>
+            <li class="link-item"><a href="/allposts">All Posts</a></li>
+            <li class="link-item"><a href="#">Contacts</a></li>
+          </ul>
+
+          <ul>
+            <h4 class="link-heading">Function</h4>
+
+            <li class="link-item"><a href="/users/postadd">Create Post</a></li>
+            <li class="link-item"><a href="/">Most Liked Posts</a></li>
+            <li class="link-item"><a href="/users">My Posts</a></li>
+            <li class="link-item"><a href="/users/favblogs">Fav Blogger Posts</a></li>
+          </ul>
+
+          <ul>
+            <h4 class="link-heading">Help</h4>
+
+            <li class="link-item"><a href="/users">Account</a></li>
+            <li class="link-item"><a href="/users/profile-setting">Setting</a></li>
+            <li class="link-item"><a href="/changepassword">Password Change</a></li>
+            <li class="link-item"><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-copyright">
+        <div class="copyright">
+          <p>&copy; copyright 2022 BandGRid</p>
+        </div>
+
+        <div class="wrapper">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms and conditions</a>
+        </div>
+      </div>
+    </footer>
+    </div>
+
+    <!--
+    - custom js link
+  -->
+    <script src="./assets/js/main.js"></script>
+
+    <!--
+    - ionicon link
+  -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script>
+      var time = document.getElementById("posttime").value;
+      $(".postyear").append(moment(time).format("YYYY"));
+    </script>
+  </body>
+</html>

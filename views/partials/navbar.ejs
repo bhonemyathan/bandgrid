@@ -1,0 +1,76 @@
+<header class="">
+  <div class="navbar">
+    <!--
+        - menu button for small screen
+      -->
+    <button class="navbar-menu-btn">
+      <span class="one"></span>
+      <span class="two"></span>
+      <span class="three"></span>
+    </button>
+
+    <a href="/" class="navbar-brand">
+      <h2 style="letter-spacing: 3px;">Band<font color="blue">GRid</font></h2>
+    </a>
+
+    <!--
+        - navbar navigation
+      -->
+
+    <nav class="">
+      <ul class="navbar-nav">
+        <li><a href="/" class="navbar-link">Home</a></li>
+        <li><a href="#" class="navbar-link">About</a></li>
+        <li><a href="#" class="navbar-link">Contact</a></li>
+        <li><a href="/allposts" class="navbar-link">All Posts</a></li>
+      </ul>
+    </nav>
+
+    <!--
+        - search and sign-in
+      -->
+
+    <div class="navbar-actions">
+      <form action="/search" class="navbar-form">
+        <input
+          type="text"
+          name="title"
+          placeholder="I'm looking for..."
+          class="navbar-form-search"
+        />
+
+        <button type="submit" class="navbar-form-btn">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+      
+        <button type="button" class="navbar-form-close">
+          <ion-icon class="navbar-form-close" name="close-circle-outline"></ion-icon>
+        </button>
+      </form>
+
+      <!--
+          - search button for small screen
+        -->
+
+      <button class="navbar-search-btn">
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+      <% if(locals.user) {%>
+        <% if(locals.user.image != null) {%>
+          <a href="/users" class="navbar-singin">
+            <img style="border-radius: 50%;border: 2px solid white;width: 40px;height: 40px;" src="<%= locals.user.image %>" alt="">
+          </a>
+        <%} else {%>
+          <a href="/users" class="navbar-singin">
+            <img style="border-radius: 50%;border: 2px solid white;width: 40px;height: 40px;" src="" alt="">
+          </a>
+        <%}%>
+        <%} else {%>
+      <a href="/login" class="navbar-signin">
+        <span>Sign in</span>
+        <ion-icon name="log-in-outline"></ion-icon>
+      </a>
+      <%} %>
+    </div>
+  </div>
+</header>

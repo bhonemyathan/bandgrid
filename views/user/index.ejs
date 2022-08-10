@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../assets/images/icon.png"
+      type="image/png"
+    />
+    <title>Bandgrid</title>
+
+    <!--
+    - custom css link
+  -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/media_query.css" />
+
+    <!--
+    - google font link
+  -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!--
+    - main container
+  -->
+    <div class="container">
+      <!--
+      - #HEADER SECTION
+    -->
+      <% include ../partials/navbar %>
+
+      <!--
+      - MAIN SECTION
+    -->
+      <main>
+        <section class="movies">
+            <!--
+            - filter bar
+          -->
+            <div class="filter-bar">
+              <div style="display: inline-flex;align-items: center" class="filter-dropdowns">
+                <img style="display: inline-block;margin-right: 10px; border-radius: 50%;border: 2px solid white;width: 40px;height: 40px;" src="<%= locals.user.image %>" alt="">
+                <h4 style="display: inline-block;"><%= locals.user.name %></h4>
+              </div>
+  
+              <div class="filter-radios">
+                <a
+                      href="/users/postadd"
+                      style="display: inline-block; text-decoration: none; color: white; opacity: 90%;margin-right: 10px;border-bottom: 2px solid white;"
+                      >Create Post</a
+                    >
+                    <a
+                      href="/users/profile-setting"
+                      style="display: inline-block; text-decoration: none; color: white; opacity: 90%;margin-right: 10px;border-bottom: 2px solid white;"
+                      >Profile Setting</a
+                    >
+                    <a
+                      href="/users/favblogs"
+                      style="display: inline-block; text-decoration: none; color: white; opacity: 90%;margin-right: 10px;border-bottom: 2px solid white;"
+                      >Favortie Blogger</a
+                    >
+                    <a
+                      href="/changepassword"
+                      style="display: inline-block; text-decoration: none; color: white; opacity: 90%;margin-right: 10px;border-bottom: 2px solid white;"
+                      >Change Password</a
+                    >
+                    <a
+                      href="/logout"
+                      style="display: inline-block; text-decoration: none; color: white; opacity: 90%;margin-right: 10px;border-bottom: 2px solid white;"
+                      >Logout</a
+                    >
+                    
+              </div>
+            </div>
+  
+
+            <div class="filter-bar" style="justify-content: center;">
+                <!-- <div class="filter-dropdowns">
+                  <img style="border-radius: 50%;border: 2px solid white;width: 40px;height: 40px;" src="../images/unknown_user.webp" alt="">
+                  
+                </div> -->
+    
+                <div class="filter-radios">
+                    <div style="display: inline-flex;justify-content: center;align-items: center;margin-right: 20px;">
+                    <ion-icon style="font-size: 26px;" name="thumbs-up-outline"></ion-icon>
+                    <p>Your Like(s)-</p>
+                    <span style="opacity: 80%;"><%= likeCount %></span>
+                    </div>
+                    <div style="display: inline-flex;justify-content: center;align-items: center;margin-right: 20px;">
+                    <ion-icon style="font-size: 26px;" name="people-outline"></ion-icon>
+                    <p>Your Fav Blogger(s)-</p>
+                    <span style="opacity: 80%;"><%= favCount.favoriteB.length %></span>
+                    </div>
+                    <div style="display: inline-flex;justify-content: center;align-items: center;margin-right: 20px;">
+                    <ion-icon style="font-size: 26px;" name="document-outline"></ion-icon>
+                    <p>Your Post(s)-</p>
+                    <span style="opacity: 80%;"><%= postCount %></span>
+                    </div>
+                    <div style="display: inline-flex;justify-content: center;align-items: center;margin-right: 20px;">
+                    <ion-icon style="font-size: 26px;" name="pricetag-outline"></ion-icon>
+                    <p>Your Comment(s)-</p>
+                    <span style="opacity: 80%;"><%= commentCount %></span>
+                    </div>
+                </div>
+              </div>
+            <!--
+            - movies grid
+          -->
+  
+            <div class="movies-grid">
+              <% if(posts.length){%>
+                <% for(var i = 0;i < posts.length;i++) {%>
+                    <div class="movie-card">
+                        <div class="card-head">
+                          <img
+                            src="<%= posts[i].image %>"
+                            alt=""
+                            class="card-img"
+                          />
+          
+                          <div class="card-overlay">
+                            <div class="bookmark">
+                              <a href="/users/postupdate/<%= posts[i]._id %>"><ion-icon name="build-outline"></ion-icon></a>
+                            </div>
+          
+                            <div class="rating">
+                              <a href="/users/postdelete/<%= posts[i]._id %>"><ion-icon name="trash-outline"></ion-icon></a>
+                            </div>
+          
+                            <div class="play">
+                                <a
+                                href="/users/postdetail/<%= posts[i]._id %>"
+                                style="text-decoration: none; color: white; opacity: 90%"
+                                >See More</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+          
+                        <div class="card-body">
+                             <input
+                            type="hidden"
+                            name="posttime"
+                            id="posttime"
+                            value="<%= posts[i].updated %>"
+                             />
+                          <h3 class="card-title"><%= posts[i].title %></h3>
+          
+                          <div class="card-info">
+                            <span class="genre"><%= posts[i].author.name %></span>
+                            <span class="postyear"></span>
+                          </div>
+                        </div>
+                      </div>
+                <%}%>
+                <%} else {%>
+                  <div style="width: 80vw;height: 50vh;display: inline-flex;justify-content: center;">
+                    <div class="" style="height: 0;">
+                      <img src="/images/Alone.svg" style="width: 300px;height:300px;" alt="">
+                      </div>
+                  </div>
+                    </div>
+                <%}%>
+  
+          </section>
+        
+      <!--
+      - FOOTER SECTION
+    -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="./assets/images/logo.png" alt="" class="footer-logo" />
+          <p class="slogan">
+            Internet Platform & Social Network & Blog Style,Anyone Can Upload The Post.
+          </p>
+
+          <div class="social-link">
+            <a href="#">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-tiktok"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <ul>
+            <h4 class="link-heading">BandGRid</h4>
+
+            <li class="link-item"><a href="#">About us</a></li>
+            <li class="link-item"><a href="/users">My profile</a></li>
+            <li class="link-item"><a href="/allposts">All Posts</a></li>
+            <li class="link-item"><a href="#">Contacts</a></li>
+          </ul>
+
+          <ul>
+            <h4 class="link-heading">Function</h4>
+
+            <li class="link-item"><a href="/users/postadd">Create Post</a></li>
+            <li class="link-item"><a href="/">Most Liked Posts</a></li>
+            <li class="link-item"><a href="/users">My Posts</a></li>
+            <li class="link-item"><a href="/users/favblogs">Fav Blogger Posts</a></li>
+          </ul>
+
+          <ul>
+            <h4 class="link-heading">Help</h4>
+
+            <li class="link-item"><a href="/users">Account</a></li>
+            <li class="link-item"><a href="/users/profile-setting">Setting</a></li>
+            <li class="link-item"><a href="/changepassword">Password Change</a></li>
+            <li class="link-item"><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-copyright">
+        <div class="copyright">
+          <p>&copy; copyright 2022 BandGRid</p>
+        </div>
+
+        <div class="wrapper">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms and conditions</a>
+        </div>
+      </div>
+    </footer>
+    </div>
+
+    <!--
+    - custom js link
+  -->
+    <script src="../assets/js/main.js"></script>
+
+    <!--
+    - ionicon link
+  -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script>
+        var time = document.getElementById("posttime").value;
+      $(".postyear").append(moment(time).format("YYYY"));
+    </script>
+  </body>
+</html>
