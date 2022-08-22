@@ -18,11 +18,15 @@
             <h2 class="title">Sign in</h2>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" name="email" placeholder="Email"  required/>
+              <input type="email" id="uemail" name="email" placeholder="Email"  required/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
               <input type="password" name="password" placeholder="Password" required/>
+            </div>
+            <div class="input-field" style="background-color: white;display: flex;justify-content: center;align-items: center;">
+              <input type="checkbox" name="rememberMe" id="rememberMe">
+              <label for="rememberMe">remember me</label>
             </div>
             <input type="submit" value="Login" class="btn solid" />
             <p class="social-text">Or Sign in with social platforms</p>
@@ -109,7 +113,19 @@
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
     crossorigin="anonymous"
   ></script>
+  <script src="/javascripts/js.cookie.min.js"></script>
   <script>
+    $("#rememberMe").click(function() {
+      if($("#rememberMe").is(":checked")) {
+        Cookies.set("email",$("#uemail").val());
+      } else {
+        Cookies.remove("email");
+      };
+    });
+    if(Cookies.get("email")) {
+        $("#uemail").val(Cookies.get("email"));
+        $("#rememberMe").prop("checked",true);
+      };
     $("#email").blur(() => {
       var data = { email: $("#email").val() };
       if ($("#email").val() != "") {

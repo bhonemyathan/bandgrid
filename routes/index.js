@@ -113,7 +113,7 @@ router.post("/register", (req, res) => {
       '<script>alert("Your password should be Uppercase,Lowercase,Special Characters,Number and a-z or A-Z"); window.location.href = "/login"; </script>'
     );
   }
-  if(email == true && password == true) {
+  if (email == true && password == true) {
     let user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
@@ -213,7 +213,7 @@ router.post("/changepassword", auth, (req, res) => {
     if (rtn != null && User.compare(req.body.cpwd, rtn.password)) {
       let rpwd = validator.isStrongPassword(req.body.rpwd);
       if (req.body.npwd == req.body.rpwd) {
-        if(rpwd == true) {
+        if (rpwd == true) {
           const pwd = bcryptjs.hashSync(
             req.body.rpwd,
             bcryptjs.genSaltSync(8),
@@ -239,27 +239,32 @@ router.post("/changepassword", auth, (req, res) => {
           "/changepassword?error=" + encodeURIComponent("Wrong_Password")
         );
       }
-        } else {
-          res.send(
-            '<script>alert("Your password should be Uppercase,Lowercase,Special Characters,Number and a-z or A-Z"); window.location.href = "/changepassword"; </script>'
-          );
-        }
+    } else {
+      res.send(
+        '<script>alert("Your password should be Uppercase,Lowercase,Special Characters,Number and a-z or A-Z"); window.location.href = "/changepassword"; </script>'
+      );
+    }
   });
 });
 
 //Search
 router.get("/search", (req, res) => {
   var titlee = req.query.title;
-      if (req.url == "/search/" || req.url == "/search") {
-      res.redirect("../forbidden");
-    } else {
-      Post.find({ title: { $regex: titlee, $options: "i" } })
-        .populate("author")
-        .exec((err, rtn) => {
-          if (err) throw err;
-          res.render("search", { search: rtn });
-        });
-    }
+  if (req.url == "/search/" || req.url == "/search") {
+    res.redirect("../forbidden");
+  } else {
+    Post.find({
+      $or: [
+        { title: { $regex: titlee, $options: "i" } },
+        { content: { $regex: titlee, $options: "i" } },
+      ],
+    })
+      .populate("author")
+      .exec((err, rtn) => {
+        if (err) throw err;
+        res.render("search", { search: rtn });
+      });
+  }
 });
 
 //account

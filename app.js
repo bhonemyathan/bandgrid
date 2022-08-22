@@ -8,23 +8,25 @@ const session = require("express-session");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var apiIndexRouter = require("./api/routes/index");
+var apiUserRouter = require("./api/routes/user"); 
 
 var app = express();
 
 
-//mongoose database connect
-// mongoose.connect("mongodb://127.0.0.1/bandgrid");
-// var db = mongoose.connection;
-// db.on("error", console.error.bind("MongoDB connection error!"));
-// db.on("connected", () => {
-//   console.log("Database Connected!");
-// });
-mongoose.connect("mongodb+srv://bhonemyathan:bhonemyathan2682004@bandgrid.yyxy5ob.mongodb.net/?retryWrites=true&w=majority");
+
+mongoose.connect("mongodb://127.0.0.1/bandgrid");
 var db = mongoose.connection;
 db.on("error", console.error.bind("MongoDB connection error!"));
 db.on("connected", () => {
   console.log("Database Connected!");
 });
+// mongoose.connect("mongodb+srv://bhonemyathan:bhonemyathan2682004@bandgrid.yyxy5ob.mongodb.net/?retryWrites=true&w=majority");
+// var db = mongoose.connection;
+// db.on("error", console.error.bind("MongoDB connection error!"));
+// db.on("connected", () => {
+//   console.log("Database Connected!");
+// });
 
 //session
 app.use(
@@ -51,6 +53,8 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/api", apiIndexRouter);
+app.use("/api/users", apiUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,6 +6,15 @@
   box-sizing: border-box;
 }
 
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+     -moz-appearance: checkbox;
+          appearance: checkbox;
+  display: inline-block;
+  width: 15px;
+  margin-right: 10px;
+}
+
 body,
 input {
   font-family: "Poppins", sans-serif;

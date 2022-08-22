@@ -5,6 +5,7 @@ const multer = require("multer");
 const Comment = require("../models/Comments");
 const Post = require("../models/Post");
 const validator = require("validator");
+const fs = require("fs");
 const upload = multer({ dest: "public/images/uploads/" });
 const profile = multer({ dest: "public/images/profiles/" });
 
@@ -60,18 +61,18 @@ router.get("/postadd", (req, res) => {
 
 //Post Uploading
 router.post("/postadd", auth, upload.single("image"), (req, res) => {
-    let post = new Post();
-    post.title = req.body.title;
-    post.content = req.body.content;
-    post.author = req.session.user.id;
-    post.created = Date.now();
-    post.updated = Date.now();
-    if (req.file) post.image = "/images/uploads/" + req.file.filename;
-    post.save((err, rtn) => {
-      if (err) throw err;
-      console.log(rtn);
-      res.redirect("/users");
-    });
+  let post = new Post();
+  post.title = req.body.title;
+  post.content = req.body.content;
+  post.author = req.session.user.id;
+  post.created = Date.now();
+  post.updated = Date.now();
+  if (req.file) post.image = "/images/uploads/" + req.file.filename;
+  post.save((err, rtn) => {
+    if (err) throw err;
+    console.log(rtn);
+    res.redirect("/users");
+  });
 });
 
 //Post Delete
@@ -85,7 +86,11 @@ router.get("/postdelete/:id", auth, (req, res) => {
           { post: req.params.id, author: req.session.user.id },
           (err2, rtn2) => {
             if (err2) throw err2;
-            res.redirect("/users");
+            fs.unlink("public" + rtn.image, (err) => {
+              if (err) throw err;
+              console.log(rtn.image + " Deleted");
+              res.redirect("/users");
+            });
           }
         );
       } else {
@@ -136,7 +141,7 @@ router.post("/profile", auth, profile.single("image"), (req, res) => {
         }
         res.redirect("/users/profile-setting");
       }
-    ); 
+    );
   }
 });
 
@@ -153,20 +158,31 @@ router.get("/postupdate/:id", auth, (req, res) => {
 
 //Post Update
 router.post("/postupdate", auth, upload.single("image"), (req, res) => {
-    let update = {
-      title: req.body.title,
-      content: req.body.content,
-      updated: Date.now(),
-    };
-    if (req.file) update.image = "/images/uploads/" + req.file.filename;
-    Post.findOneAndUpdate(
-      { _id: req.body.id, author: req.session.user.id },
-      { $set: update },
-      (err, rtn) => {
+  let update = {
+    title: req.body.title,
+    content: req.body.content,
+    updated: Date.now(),
+  };
+  if (req.file) {
+    update.image = "/images/uploads/" + req.file.filename;
+    Post.findById(req.body.id)
+      .select("image")
+      .exec((err, rtn) => {
         if (err) throw err;
-        res.redirect("/users");
-      }
-    );
+        fs.unlink("public" + rtn.image, (err) => {
+          if (err) throw err;
+          console.log(rtn.image + "Deleted");
+        });
+      });
+  }
+  Post.findOneAndUpdate(
+    { _id: req.body.id, author: req.session.user.id },
+    { $set: update },
+    (err, rtn) => {
+      if (err) throw err;
+      res.redirect("/users");
+    }
+  );
 });
 
 //Post Detail Page
